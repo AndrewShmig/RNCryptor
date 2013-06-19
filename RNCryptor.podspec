@@ -1,10 +1,11 @@
 Pod::Spec.new do |s|
   s.name = 'RNCryptor'
-  s.version = '2.1'
-  s.summary = 'Encryptor/Decryptor for iOS.'
+  s.version = '2.2-pre'
+  s.summary = 'Easy-to-use CommonCrypto interface.'
   s.authors = {'Rob Napier' => 'robnapier@gmail.com'}
-  s.license = { 
-    :type => 'MIT', 
+  s.homepage = 'https://github.com/rnapier/RNCryptor'
+  s.license = {
+    :type => 'MIT',
     :text => <<-LIC
 This code is licensed under the MIT License:
 
@@ -15,16 +16,18 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 LIC
   }
-  s.source = { :git => 'https://github.com/rnapier/RNCryptor.git', :tag => 'RNCryptor-2.0'}
+  s.source = { :git => 'https://github.com/pandamonia/RNCryptor.git', :tag => 'pandamonia-2.2-pre'}
   s.description = 'Provides an easy-to-use, Objective-C interface to the AES functionality of CommonCrypto. Simplifies correct handling of password stretching (PBKDF2), salting, and IV.'
-  s.homepage = 'https://github.com/rnapier/RNCryptor'
+  s.osx.deployment_target = '10.7'
+  s.ios.deployment_target = '5.0'
   s.source_files = 'RNCryptor/*.{h,m}'
   s.public_header_files = 'RNCryptor/*.h'
+  s.frameworks = 'Security'
   s.requires_arc = true
-  s.ios.frameworks = 'Security'
-# OS X building is broken in 2.0.
-  s.platform = :ios, '5.0'
-# Comment the above and uncomment below to support OS X and iOS.
-#  s.ios.deployment_target = '5.0'
-#  s.osx.deployment_target = '10.7'
+
+  prefix_header_contents = <<-EOS
+      #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
+      #import <Security/SecRandom.h>
+      #endif
+  EOS
 end
